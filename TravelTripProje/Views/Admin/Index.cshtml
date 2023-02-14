@@ -1,0 +1,37 @@
+﻿@using TravelTripProje.Models.Siniflar
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Blog>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Blog Listesi</h2>
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Başlık</th>
+        <th>Açıklama</th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+        <th>Detaylar</th>
+    </tr>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.ID</td>
+            <td>@x.Baslik</td>
+            <td>@x.Aciklama.Substring(0, 100)..</td>
+            <td><a href="/Admin/Sil/@x.ID" class="btn btn-danger" onclick="return confirm('Silmek istiyor musunuz?')">Sil</a></td>
+            <td><a href="/Admin/BlogGetir/@x.ID" class="btn btn-warning">Güncelle</a></td>
+            <td><a href="" class="btn btn-default">Detaylar</a></td>
+        </tr>
+    }
+</table>
+
+@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))
+<a href="/Admin/YeniBlog/" class=" btn btn-primary">Yeni Blog</a>
